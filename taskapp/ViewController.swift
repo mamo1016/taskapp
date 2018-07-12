@@ -24,26 +24,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // 日付近い順\順でソート：降順
     // 以降内容をアップデートするとリスト内は自動的に更新される。
     var taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+
     var searchResult: Results<Task>!
-//    var searchResults: [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         //テーブルビューのヘッダーにサーチバーを設定する。
         tableView.tableHeaderView = searchController.searchBar
-        
-//        let taskInfo = realm.objects(Task.self)
-        
-        // 文字列で検索条件を指定します
-//        searchResult = realm.objects(Task.self).filter("category = '仕事'")
-//        var test2 = try! Realm() .objects(Task.self).filter("category = '仕事'")//sorted(byKeyPath: "date", ascending: false)
-//        print(test2.title)
-        // category = ''のTaskオブジェクトを、日付の昇順で取得します
-//        let sortedTasks = realm.objects(Task.self).filter("category = '仕事'").sorted(byKeyPath: "date")
-//        print(searchResult[0].id)
-//        print(searchResult.count)
-        
         
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -57,6 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -138,7 +127,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if allTasks.count != 0 {
                 task.id = allTasks.max(ofProperty: "id")! + 1
             }
-            
             inputViewController.task = task
         }
     }

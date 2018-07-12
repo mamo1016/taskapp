@@ -10,15 +10,21 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class InputViewController: UIViewController {
+class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var categoryTextField: UITextField!
+    @IBOutlet weak var categoryPicker: UIPickerView!
+
     
     var task: Task!
+    var category: Category!
     let realm = try! Realm()
+    var categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "title", ascending: false)
+    var categoryTitle: String!
+    var changeCategory: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //背景タップでdismissKeyboardメソッド呼ぶ
@@ -29,11 +35,32 @@ class InputViewController: UIViewController {
         titleTextField.text = task.title
         contentsTextView.text = task.contents
         datePicker.date = task.date
-        categoryTextField.text = task.category
-
         titleTextField.returnKeyType = .done
-        categoryTextField.returnKeyType = .done
-        categoryTextField.placeholder = "カテゴリを入力"
+        // プロトコルの設定
+        categoryPicker.delegate = self
+        categoryPicker.dataSource = self
+        // はじめに表示する項目を指定
+        categoryPicker.selectRow(0, inComponent: 0, animated: true)
+        for i in 0..<categoryArray.count{
+            if task.category == categoryArray[i].title && task.category != ""{
+                categoryPicker.selectRow(i, inComponent: 0, animated: true)
+                print(task.category)
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "title", ascending: false)
+        // はじめに表示する項目を指定
+        categoryPicker.selectRow(0, inComponent: 0, animated: true)
+        for i in 0..<categoryArray.count{
+            if task.category == categoryArray[i].title && task.category != ""{
+                categoryPicker.selectRow(i, inComponent: 0, animated: true)
+                print(task.category)
+            }
+        }
+        
+        print("willapear")
 
     }
     
@@ -42,7 +69,9 @@ class InputViewController: UIViewController {
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
-            self.task.category = self.categoryTextField.text!
+            if changeCategory {
+                self.task.category = self.categoryTitle!
+            }
             self.realm.add(self.task, update: true)
         }
         setNotification(task: task)
@@ -110,4 +139,44 @@ class InputViewController: UIViewController {
         titleTextField.resignFirstResponder()
         return true
     }
+    
+    
+    // UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        // 表示する列数
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // アイテム表示個数を返す
+        return categoryArray.count
+    }
+    
+    // UIPickerViewDelegate
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        // 表示する文字列を返す
+        return categoryArray[row].title
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // 選択時の処理
+        categoryTitle = categoryArray[row].title
+        changeCategory = true
+    }
+    
+    
+    // segue で画面遷移するに呼ばれる
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        let inputCatgoryViewController:InputCategoryViewController = segue.destination as! InputCategoryViewController
+        
+        let category = Category()
+        
+        let allCategorys = realm.objects(Category.self)
+        if allCategorys.count != 0 {
+            category.id = allCategorys.max(ofProperty: "id")! + 1
+        }
+        inputCatgoryViewController.category = category
+    }
+    
 }

@@ -13,6 +13,9 @@
 		0414CAFC20EF20830050DCAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0414CAFB20EF20830050DCAD /* Assets.xcassets */; };
 		0414CAFF20EF20830050DCAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0414CAFD20EF20830050DCAD /* LaunchScreen.storyboard */; };
 		0414CB0720EF342C0050DCAD /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414CB0620EF342C0050DCAD /* InputViewController.swift */; };
+		046181CD20F5ED66009F3980 /* InputCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046181CC20F5ED66009F3980 /* InputCategoryViewController.swift */; };
+		046181CF20F5FC59009F3980 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046181CE20F5FC59009F3980 /* Category.swift */; };
+		046181D220F62B60009F3980 /* testViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046181D120F62B60009F3980 /* testViewController.swift */; };
 		04A1813E20F23BFB00FCCFA6 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A1813D20F23BFB00FCCFA6 /* Task.swift */; };
 		9ABF3045B6DFFE23D0BF87BC /* Pods_taskapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4B08D87DF0C52DA6E0F10FC /* Pods_taskapp.framework */; };
 /* End PBXBuildFile section */
@@ -26,6 +29,9 @@
 		0414CAFE20EF20830050DCAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0414CB0020EF20830050DCAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0414CB0620EF342C0050DCAD /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		046181CC20F5ED66009F3980 /* InputCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCategoryViewController.swift; sourceTree = "<group>"; };
+		046181CE20F5FC59009F3980 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		046181D120F62B60009F3980 /* testViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testViewController.swift; sourceTree = "<group>"; };
 		04A1813D20F23BFB00FCCFA6 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		4D2D7865679B2DF7E9FF7378 /* Pods-taskapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-taskapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-taskapp/Pods-taskapp.debug.xcconfig"; sourceTree = "<group>"; };
 		9FED8A2A1E8DB262B2E5DACE /* Pods-taskapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-taskapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-taskapp/Pods-taskapp.release.xcconfig"; sourceTree = "<group>"; };
@@ -73,6 +79,9 @@
 				0414CB0020EF20830050DCAD /* Info.plist */,
 				0414CB0620EF342C0050DCAD /* InputViewController.swift */,
 				04A1813D20F23BFB00FCCFA6 /* Task.swift */,
+				046181CE20F5FC59009F3980 /* Category.swift */,
+				046181CC20F5ED66009F3980 /* InputCategoryViewController.swift */,
+				046181D120F62B60009F3980 /* testViewController.swift */,
 			);
 			path = taskapp;
 			sourceTree = "<group>";
@@ -209,9 +218,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04A1813E20F23BFB00FCCFA6 /* Task.swift in Sources */,
+				046181CD20F5ED66009F3980 /* InputCategoryViewController.swift in Sources */,
+				046181D220F62B60009F3980 /* testViewController.swift in Sources */,
 				0414CB0720EF342C0050DCAD /* InputViewController.swift in Sources */,
 				0414CAF720EF20820050DCAD /* ViewController.swift in Sources */,
 				0414CAF520EF20820050DCAD /* AppDelegate.swift in Sources */,
+				046181CF20F5FC59009F3980 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
