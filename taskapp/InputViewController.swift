@@ -21,10 +21,9 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     var task: Task!
     var category: Category!
     let realm = try! Realm()
-    var categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "title", ascending: false)
+    var categoryArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "title", ascending: false)
     var categoryTitle: String!
     var changeCategory: Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         //背景タップでdismissKeyboardメソッド呼ぶ
@@ -42,25 +41,31 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         // はじめに表示する項目を指定
         categoryPicker.selectRow(0, inComponent: 0, animated: true)
         for i in 0..<categoryArray.count{
-            if task.category == categoryArray[i].title && task.category != ""{
+//            if task.category == categoryArray[i].title && task.category != ""{
+//                categoryPicker.selectRow(i, inComponent: 0, animated: true)
+//                print(task.category)
+//            }
+            if task.category2?.title == categoryArray[i].title && task.category != ""{
                 categoryPicker.selectRow(i, inComponent: 0, animated: true)
-                print(task.category)
             }
         }
+        print(task.category2)
+//        var test =
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "title", ascending: false)
+        categoryArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "category", ascending: false)
         // はじめに表示する項目を指定
         categoryPicker.selectRow(0, inComponent: 0, animated: true)
         for i in 0..<categoryArray.count{
-            if task.category == categoryArray[i].title && task.category != ""{
+            if task.category2?.title == categoryArray[i].title && task.category2?.title != ""{
                 categoryPicker.selectRow(i, inComponent: 0, animated: true)
-                print(task.category)
+//                print(task.category2?.title)
             }
         }
         
-        print("willapear")
+//        print("willapear")
 
     }
     
@@ -70,7 +75,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
             if changeCategory {
-                self.task.category = self.categoryTitle!
+                self.task.category2?.title = self.categoryTitle!
             }
             self.realm.add(self.task, update: true)
         }
@@ -84,7 +89,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
 
     @objc func dismissKeyboard(){
-        print("キー入力終了")
+//        print("キー入力終了")
         view.endEditing(true)
     }
     
@@ -104,10 +109,10 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             content.body = task.contents
         }
 
-        if task.category == "" {
+        if task.category2?.title == "" {
             content.body = "(カテゴリなし)"
         } else {
-            content.body = task.category
+            content.body = (task.category2?.title)!
         }
         content.sound = UNNotificationSound.default()
         
@@ -121,15 +126,15 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         //ローカル通知を登録
         let center = UNUserNotificationCenter.current()
         center.add(request) {(error) in
-            print(error ?? "ローカル通知登録OK") //??演算子　左がnilでなければ左を表示，左がnilなら右を表示
+//            print(error ?? "ローカル通知登録OK") //??演算子　左がnilでなければ左を表示，左がnilなら右を表示
         }
         
         //未通知のローカル通知をログ出力
         center.getPendingNotificationRequests{ (requests: [UNNotificationRequest]) in
             for request in requests {
-                print("/-----------")
-                print(request)
-                print("-----------/")
+//                print("/-----------")
+//                print(request)
+//                print("-----------/")
                 
             }
         }
