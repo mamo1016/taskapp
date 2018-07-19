@@ -12,13 +12,14 @@ import RealmSwift
 
 class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate{
     
-//    @IBOutlet weak var categoryLabel: UILabel!
+
     @IBOutlet weak var pickerView: UIPickerView!
     
     @IBOutlet weak var textField: UITextField!
     
     @IBOutlet weak var addButton: UIButton!
     var category: Category!
+    var task: Task!
     let realm = try! Realm()
     var categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "title", ascending: false)
     
@@ -30,8 +31,8 @@ class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIP
         pickerView.delegate = self
         pickerView.dataSource = self
         // はじめに表示する項目を指定
-        pickerView.selectRow(1, inComponent: 0, animated: true)
-
+        pickerView.selectRow(0, inComponent: 0, animated: true)
+        print(categoryArray.count)
     }
     
     // UIPickerViewDataSource
@@ -43,10 +44,9 @@ class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIP
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // アイテム表示個数を返す
         return categoryArray.count
+//        return 1
     }
-    
-    // UIPickerViewDelegate
-    
+        
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         // 表示する文字列を返す
         return categoryArray[row].title
@@ -54,8 +54,6 @@ class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIP
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // 選択時の処理
-//        print(dataList[row])
-//        categoryLabel.text = categoryArray[row].title
     }
     
     @IBAction func addCategory(){
@@ -66,16 +64,7 @@ class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIP
                 self.realm.add(self.category, update: true)
             }
         }
+        pickerView.reloadAllComponents()
+        print(self.category.title)
     }
-    // 追加する
-//    override func viewWillDisappear(_ animated: Bool) {
-//        try! realm.write {
-//            //テキストフィールドがからの時はカテゴリ追加しない
-//            if textField.text != ""{
-//                self.category.title = self.textField.text!
-//                self.realm.add(self.category, update: true)
-//            }
-//        }
-//        super.viewWillDisappear(animated)
-//    }
 }

@@ -19,7 +19,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var i: Int = 0
     //Realmインスタンス取得
     let realm = try! Realm()
-    
 
     // DB内のタスクが格納されるリスト。
     // 日付近い順\順でソート：降順
@@ -27,7 +26,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
 
     var searchResult: Results<Task>!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -42,6 +40,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchController.hidesNavigationBarDuringPresentation = false
         
         tableView.tableHeaderView = searchController.searchBar
+        print(taskArray)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,7 +140,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if searchController.searchBar.text!.lowercased() == "" {
             taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
         }else{
-            taskArray = realm.objects(Task.self).filter("category2 = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+            taskArray = realm.objects(Task.self).filter("category = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
         }
 
         //テーブルビューを再読み込みする。

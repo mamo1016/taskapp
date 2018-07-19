@@ -16,12 +16,13 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var categoryPicker: UIPickerView!
-
+    @IBOutlet weak var categoryLabel: UILabel!
+    
     
     var task: Task!
     var category: Category!
     let realm = try! Realm()
-    var categoryArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "title", ascending: false)
+    var categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "id", ascending: true)
     var categoryTitle: String!
     var changeCategory: Bool = false
     override func viewDidLoad() {
@@ -29,6 +30,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         //背景タップでdismissKeyboardメソッド呼ぶ
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
+        print(task)
 
         //表示
         titleTextField.text = task.title
@@ -40,42 +42,23 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         categoryPicker.dataSource = self
         // はじめに表示する項目を指定
         categoryPicker.selectRow(0, inComponent: 0, animated: true)
-        for i in 0..<categoryArray.count{
-//            if task.category == categoryArray[i].title && task.category != ""{
-//                categoryPicker.selectRow(i, inComponent: 0, animated: true)
-//                print(task.category)
-//            }
-            if task.category2?.title == categoryArray[i].title && task.category != ""{
-                categoryPicker.selectRow(i, inComponent: 0, animated: true)
-            }
-        }
-        print(task.category2)
-//        var test =
+        categoryLabel.text = task.category?.title
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        categoryArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "category", ascending: false)
-        // はじめに表示する項目を指定
-        categoryPicker.selectRow(0, inComponent: 0, animated: true)
-        for i in 0..<categoryArray.count{
-            if task.category2?.title == categoryArray[i].title && task.category2?.title != ""{
-                categoryPicker.selectRow(i, inComponent: 0, animated: true)
-//                print(task.category2?.title)
-            }
-        }
-        
-//        print("willapear")
-
+        categoryPicker.reloadAllComponents()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+//                        print("ここ")
+//データベース書き込み
         try! realm.write {
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
             if changeCategory {
-                self.task.category2?.title = self.categoryTitle!
+                self.task.category?.title = self.categoryTitle!
             }
             self.realm.add(self.task, update: true)
         }
@@ -85,11 +68,9 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @objc func dismissKeyboard(){
-//        print("キー入力終了")
         view.endEditing(true)
     }
     
@@ -109,10 +90,10 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             content.body = task.contents
         }
 
-        if task.category2?.title == "" {
+        if task.category?.title == "" {
             content.body = "(カテゴリなし)"
         } else {
-            content.body = (task.category2?.title)!
+            content.body = (task.category?.title)!
         }
         content.sound = UNNotificationSound.default()
         
@@ -126,15 +107,15 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         //ローカル通知を登録
         let center = UNUserNotificationCenter.current()
         center.add(request) {(error) in
-//            print(error ?? "ローカル通知登録OK") //??演算子　左がnilでなければ左を表示，左がnilなら右を表示
+            print(error ?? "ローカル通知登録OK") //??演算子　左がnilでなければ左を表示，左がnilなら右を表示
         }
         
         //未通知のローカル通知をログ出力
         center.getPendingNotificationRequests{ (requests: [UNNotificationRequest]) in
             for request in requests {
-//                print("/-----------")
-//                print(request)
-//                print("-----------/")
+                print("/-----------")
+                print(request)
+                print("-----------/")
                 
             }
         }
@@ -168,10 +149,11 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         // 選択時の処理
         categoryTitle = categoryArray[row].title
         changeCategory = true
+        categoryLabel.text = categoryArray[row].title
     }
     
     
-    // segue で画面遷移するに呼ばれる
+    // segue で画面遷移する前に呼ばれる
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         let inputCatgoryViewController:InputCategoryViewController = segue.destination as! InputCategoryViewController
         
@@ -183,5 +165,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         }
         inputCatgoryViewController.category = category
     }
+    
+    
     
 }
