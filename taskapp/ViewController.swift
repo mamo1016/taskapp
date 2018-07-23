@@ -24,9 +24,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // 日付近い順\順でソート：降順
     // 以降内容をアップデートするとリスト内は自動的に更新される。
     var taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
-
+    var categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "id", ascending: true)
+    
     var searchResult: Results<Task>!
     override func viewDidLoad() {
+        
+        
+        
+        
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
@@ -40,7 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchController.hidesNavigationBarDuringPresentation = false
         
         tableView.tableHeaderView = searchController.searchBar
-        print(taskArray)
+//        print(categoryArray)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,12 +140,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //検索文字列変更時の呼び出しメソッド
     func updateSearchResults(for searchController: UISearchController) {
-        
+
         print(searchController.searchBar.text!.lowercased())
         if searchController.searchBar.text!.lowercased() == "" {
             taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+            categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "id", ascending: true)
         }else{
-            taskArray = realm.objects(Task.self).filter("category = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+//            taskArray = realm.objects(Task.self).filter("category = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+            categoryArray = realm.objects(Category.self).filter("title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
         }
 
         //テーブルビューを再読み込みする。

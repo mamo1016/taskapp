@@ -65,6 +65,6 @@ class InputCategoryViewController: UIViewController, UIPickerViewDataSource, UIP
             }
         }
         pickerView.reloadAllComponents()
-        print(self.category.title)
+
     }
 }

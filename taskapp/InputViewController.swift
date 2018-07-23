@@ -30,7 +30,6 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         //背景タップでdismissKeyboardメソッド呼ぶ
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
-        print(task)
 
         //表示
         titleTextField.text = task.title
@@ -51,16 +50,21 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-//                        print("ここ")
 //データベース書き込み
         try! realm.write {
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
             if changeCategory {
-                self.task.category?.title = self.categoryTitle!
+//                self.task.category?.title = self.categoryLabel.text!
+//                self.category.title = "aaaaaaaaaaa"
+//                self.category.title = self.titleTextField.text!
+//                print(self.task.category?.title)
             }
+//            self.realm.add(self.category, update: true)
             self.realm.add(self.task, update: true)
+//            print("--------\(String(describing: task.category?.title))")
+            print(task)
         }
         setNotification(task: task)
         super.viewWillDisappear(animated)
@@ -90,7 +94,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             content.body = task.contents
         }
 
-        if task.category?.title == "" {
+        if task.category?.title == nil {
             content.body = "(カテゴリなし)"
         } else {
             content.body = (task.category?.title)!
@@ -150,6 +154,10 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         categoryTitle = categoryArray[row].title
         changeCategory = true
         categoryLabel.text = categoryArray[row].title
+        
+        try! realm.write {
+            self.task.category = self.categoryArray[row]
+        }
     }
     
     
