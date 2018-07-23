@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         
-        tableView.tableHeaderView = searchController.searchBar
+//        tableView.tableHeaderView = searchController.searchBar
         // はじめに表示する項目を指定
         categoryPicker.selectRow(0, inComponent: 0, animated: true)
         // プロトコルの設定
@@ -51,7 +51,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // はじめに表示する項目を指定
         categoryPicker.selectRow(0, inComponent: 0, animated: true)
         
-//        print(categoryArray)
+        print(taskArray)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,8 +153,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "id", ascending: true)
         }else{
             taskArray = realm.objects(Task.self).filter("category.title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
-//            categoryArray = realm.objects(Category.self).filter("title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
-            
         }
 
         //テーブルビューを再読み込みする。

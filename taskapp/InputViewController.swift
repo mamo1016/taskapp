@@ -57,12 +57,12 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
             self.task.title = self.titleTextField.text!
             self.task.contents = self.contentsTextView.text
             self.task.date = self.datePicker.date
-            if changeCategory {
+//            if changeCategory {
 //                self.task.category?.title = self.categoryLabel.text!
 //                self.category.title = "aaaaaaaaaaa"
 //                self.category.title = self.titleTextField.text!
 //                print(self.task.category?.title)
-            }
+//            }
 //            self.realm.add(self.category, update: true)
             self.realm.add(self.task, update: true)
 //            print("--------\(String(describing: task.category?.title))")
@@ -122,7 +122,6 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
                 print("/-----------")
                 print(request)
                 print("-----------/")
-                
             }
         }
     }
@@ -152,7 +151,7 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if task.category != nil{
+        if categoryArray.count != 0{
             // 選択時の処理
             categoryTitle = categoryArray[row].title
             changeCategory = true
