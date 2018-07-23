@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aAr-YR-aVA">
-    <device id="retina4_0" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,11 +15,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Z0f-Vf-995">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="216"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Amr-4x-2Ae" detailTextLabel="6Wh-x4-9ti" style="IBUITableViewCellStyleSubtitle" id="QRk-w6-eWj">
@@ -48,15 +48,22 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFs-Vg-ESX">
+                                <rect key="frame" x="0.0" y="280" width="320" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="NVY-Ca-ey8"/>
+                                </constraints>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Z0f-Vf-995" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Je8-Ya-mSK"/>
-                            <constraint firstItem="Z0f-Vf-995" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="TaJ-wn-mum"/>
-                            <constraint firstItem="Z0f-Vf-995" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bBf-Ki-x6Q"/>
-                            <constraint firstItem="Z0f-Vf-995" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="dyr-NU-EOS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z0f-Vf-995" secondAttribute="trailing" id="hZ5-yq-kp8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Z0f-Vf-995" secondAttribute="bottom" id="xh0-Sb-1zz"/>
+                            <constraint firstItem="wFs-Vg-ESX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Bah-67-BZd"/>
+                            <constraint firstItem="wFs-Vg-ESX" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="CP4-jv-v9Q"/>
+                            <constraint firstItem="Z0f-Vf-995" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Dyb-Iv-VIi"/>
+                            <constraint firstItem="wFs-Vg-ESX" firstAttribute="top" secondItem="Z0f-Vf-995" secondAttribute="bottom" id="ahl-Ta-odE"/>
+                            <constraint firstItem="wFs-Vg-ESX" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="geL-Zm-Duf"/>
+                            <constraint firstItem="Z0f-Vf-995" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="h5X-vR-eqJ"/>
+                            <constraint firstItem="Z0f-Vf-995" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zH4-oj-WsE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -68,20 +75,21 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="categoryPicker" destination="wFs-Vg-ESX" id="IQ5-YT-NEr"/>
                         <outlet property="tableView" destination="Z0f-Vf-995" id="ydm-Mg-MmA"/>
                         <segue destination="B3p-8x-Ubr" kind="show" identifier="cellSegue" id="2Km-VH-91q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="944.79999999999995" y="-651.72413793103453"/>
+            <point key="canvasLocation" x="943.125" y="-651.76056338028172"/>
         </scene>
         <!--タスク作成-->
         <scene sceneID="9fI-GO-FlI">
             <objects>
                 <viewController id="B3p-8x-Ubr" customClass="InputViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NwQ-wQ-2Mu">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RXh-bx-1qW">
@@ -103,23 +111,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="n8B-DN-AIg">
-                                <rect key="frame" x="0.0" y="180" width="320" height="98"/>
+                                <rect key="frame" x="0.0" y="180" width="320" height="10"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="REj-hU-kcc">
-                                <rect key="frame" x="0.0" y="296" width="320" height="104"/>
+                                <rect key="frame" x="0.0" y="208" width="320" height="104"/>
                                 <date key="date" timeIntervalSinceReferenceDate="552549315.23178995">
                                     <!--2018-07-06 05:55:15 +0000-->
                                 </date>
                             </datePicker>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qby-FG-4w4">
-                                <rect key="frame" x="0.0" y="456" width="320" height="112"/>
+                                <rect key="frame" x="0.0" y="368" width="320" height="112"/>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カテゴリ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buC-tK-wpa">
-                                <rect key="frame" x="100" y="420" width="120" height="21"/>
+                                <rect key="frame" x="100" y="332" width="120" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -178,7 +186,7 @@
             <objects>
                 <viewController id="1Mr-ob-8e9" customClass="InputCategoryViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e6t-Fj-giq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JbW-pl-aHe">

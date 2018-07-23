@@ -40,9 +40,11 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
         // はじめに表示する項目を指定
-        categoryPicker.selectRow(0, inComponent: 0, animated: true)
+        if(task.category?.id != nil){
+            categoryPicker.selectRow((task.category?.id)!, inComponent: 0, animated: true)
+        }
+//        categoryPicker.selectRow((task.category?.id)!, inComponent: 0, animated: true)
         categoryLabel.text = task.category?.title
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,13 +152,15 @@ class InputViewController: UIViewController, UIPickerViewDataSource, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // 選択時の処理
-        categoryTitle = categoryArray[row].title
-        changeCategory = true
-        categoryLabel.text = categoryArray[row].title
-        
-        try! realm.write {
-            self.task.category = self.categoryArray[row]
+        if task.category != nil{
+            // 選択時の処理
+            categoryTitle = categoryArray[row].title
+            changeCategory = true
+            categoryLabel.text = categoryArray[row].title
+            
+            try! realm.write {
+                self.task.category = self.categoryArray[row]
+            }
         }
     }
     

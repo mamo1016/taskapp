@@ -10,11 +10,12 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UIPickerViewDataSource, UIPickerViewDelegate{
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var categorySearch: UISearchBar!
-
+    @IBOutlet weak var categoryPicker: UIPickerView!
+    
     var searchController = UISearchController()
     var i: Int = 0
     //Realmインスタンス取得
@@ -29,9 +30,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var searchResult: Results<Task>!
     override func viewDidLoad() {
         
-        
-        
-        
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
@@ -45,13 +43,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchController.hidesNavigationBarDuringPresentation = false
         
         tableView.tableHeaderView = searchController.searchBar
+        // はじめに表示する項目を指定
+        categoryPicker.selectRow(0, inComponent: 0, animated: true)
+        // プロトコルの設定
+        categoryPicker.delegate = self
+        categoryPicker.dataSource = self
+        // はじめに表示する項目を指定
+        categoryPicker.selectRow(0, inComponent: 0, animated: true)
+        
 //        print(categoryArray)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //リロード
         tableView.reloadData()
-        
+        categoryPicker.reloadAllComponents()
     }
 
     override func didReceiveMemoryWarning() {
@@ -137,21 +144,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    
     //検索文字列変更時の呼び出しメソッド
     func updateSearchResults(for searchController: UISearchController) {
 
-        print(searchController.searchBar.text!.lowercased())
+//        print(searchController.searchBar.text!.lowercased())
         if searchController.searchBar.text!.lowercased() == "" {
             taskArray = try! Realm() .objects(Task.self).sorted(byKeyPath: "date", ascending: false)
             categoryArray = try! Realm() .objects(Category.self).sorted(byKeyPath: "id", ascending: true)
         }else{
-//            taskArray = realm.objects(Task.self).filter("category = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
-            categoryArray = realm.objects(Category.self).filter("title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+            taskArray = realm.objects(Task.self).filter("category.title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+//            categoryArray = realm.objects(Category.self).filter("title = '\(searchController.searchBar.text!.lowercased())' OR title = '\(searchController.searchBar.text!.lowercased())'")
+            
         }
 
         //テーブルビューを再読み込みする。
         tableView.reloadData()
+    }
+    
+    // UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        // 表示する列数
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // アイテム表示個数を返す
+        return categoryArray.count
+    }
+    
+    // UIPickerViewDelegate
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        // 表示する文字列を返す
+        return categoryArray[row].title
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        print(categoryArray[row])
+        if categoryArray.count != 0{
+            taskArray = realm.objects(Task.self).filter("category.title = '\(categoryArray[row].title)'")
+            //テーブルビューを再読み込みする。
+            tableView.reloadData()
+        }
     }
 }
 
